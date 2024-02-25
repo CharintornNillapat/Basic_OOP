@@ -75,7 +75,8 @@ public class BoardGame {
 }
 class Board {
     public void printBoard(int c1Position, int c2Position, Figure c1, Figure c2 ) { //เเสดงสถานะของกระดาน
-        
+        System.out.print("A B C D E F G H");
+        System.out.println("8");
         for (int i = 1; i <= BoardGame.BOARD_SIZE; i++) {
             if (i == c1Position) {
                 System.out.print("[" + c1 +"]");
