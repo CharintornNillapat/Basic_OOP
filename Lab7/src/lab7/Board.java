@@ -33,7 +33,7 @@ public class Board {
     }
   }
 
-  public void placePiece(Piece piece, File file, int rank) {
+  public void placePiece(Figure piece, File file, int rank) {
       
     // Check if location is valid
     if (!isValidLocation(file, rank)) {
@@ -43,9 +43,7 @@ public class Board {
     // Get the corresponding Square object from the board array
     Square square = boardSquares[BOARD_LENGTH - rank][file.ordinal()];
     
-    if (square.isOccupied()) {
-      throw new IllegalStateException("Square already occupied: " + square.getLocation());
-    }
+    
 
     // Place the piece on the square and set its current square
     square.setCurrentPiece(piece); // Set the current piece for the square
@@ -64,21 +62,21 @@ public class Board {
 
   public void printBoard() {
     for (int i = 0; i < boardSquares.length; i++) {
-      System.out.print(BOARD_LENGTH - i + " ");
+      System.out.print(BOARD_LENGTH - i + "  ");
       for (int j = 0; j < boardSquares[i].length; j++) {
         if (boardSquares[i][j].isOccupied()) {
           Figure piece = boardSquares[i][j].getCurrentPiece();
           // เเสดงผลตัวอักษรเเรกของชื่อ
-          System.out.print(piece.getName().charAt(0) + " ");
+          System.out.print(piece.getName()+ "  ");
         } else {
-          System.out.print("- ");
+          System.out.print("-   ");
         }
       }
       System.out.println();
     }
-    System.out.print("  ");
+    System.out.print("   ");
     for (File file : File.values()) {
-      System.out.print(file.name() + " ");
+      System.out.print(file.name() + "   ");
     }
     System.out.println();
     System.out.println();
@@ -93,28 +91,34 @@ public class Board {
     }
   }
   
-  public static void freeMove(Board board, Piece piece, File file, int rank) {
-    // Check if the destination location is valid
-    if (isValidLocation(file, rank)) {
-      Square destinationSquare = board.getSquare(file, rank); // Retrieve the destination square
+public static void freeMove(Board board, Figure piece, File file, int rank) {
+  // Check if the destination location is valid
+  if (isValidLocation(file, rank)) {
+    Square targetSquare = board.getSquare(file, rank); // Retrieve the destination square
 
-      // Check if the destination square is occupied by a piece of different color
-      if (destinationSquare.isOccupied()
-          && destinationSquare.getCurrentPiece().getPieceColor() != piece.getPieceColor()) {
-        // Capture the piece by removing it from the board
-        destinationSquare.reset();
-        System.out.println("Piece captured!");
-      }
-
-      // Reset the square where the piece was originally located
-      Square originalSquare = piece.getCurrentSquare();
-      originalSquare.reset();
-
-      
-      board.placePiece(piece, file, rank);
-      
-    } else {
-      System.out.println("Invalid move!");
+    // Check if the destination square is occupied by a piece of different color
+    if (targetSquare.isOccupied()
+        && targetSquare.getCurrentPiece().getPieceColor() != piece.getPieceColor()) {
+      // Capture the piece by setting it to null in the square
+      targetSquare.currentPiece = null;
+      System.out.println("Piece captured!");
     }
+
+    // Reset the square where the piece was originally located
+    Square originalSquare = piece.getCurrentSquare();
+    originalSquare.reset();
+
+    
+
+  } else {
+    System.out.println("Invalid move!");
   }
 }
+
+}
+
+   
+
+   
+
+

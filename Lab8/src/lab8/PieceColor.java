@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package lab7;
+package lab8;
 
 /**
  *
  * @author Eazymandiaz
  */
-public enum File { A,B,C,D,E,F,G,H;}
+public enum PieceColor {WHITE,BLACK}

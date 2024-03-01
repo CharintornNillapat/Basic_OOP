@@ -14,7 +14,7 @@ public class Square {
   private final Location location;
 
   private boolean isOccupied;
-  private Figure currentPiece;
+  Figure currentPiece;
 
   public Figure getCurrentPiece() {
     return currentPiece;
@@ -47,4 +47,17 @@ public class Square {
   public boolean isOccupied() {
     return isOccupied;
   }
+ public Figure removePiece() {
+    if (isOccupied()) {
+      Figure removedPiece = currentPiece;
+      currentPiece = null;
+      return removedPiece;
+    } else {
+      // Handle the case where the square is not occupied (optional)
+      // You could throw an exception, return null, or log a message
+      return null;  // Example: returning null for an empty square
+    }
+  }
 }
+   
+
