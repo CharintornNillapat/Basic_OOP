@@ -1,6 +1,7 @@
 package lab8;
 
 public class Pawn extends Piece {
+
     private boolean isFirstMove;
     private boolean isFirstPosition;
 
@@ -21,8 +22,8 @@ public class Pawn extends Piece {
             isFirstPosition = false;
 
             // Check for valid starting positions for pawns
-            if ((pieceColor == PieceColor.BLACK && initialRow != 1) ||
-                (pieceColor == PieceColor.WHITE && initialRow != 6)) {
+            if ((pieceColor == PieceColor.BLACK && initialRow != 1)
+                    || (pieceColor == PieceColor.WHITE && initialRow != 6)) {
                 System.out.println(name + " must start at the correct row");
                 return;
             }
@@ -45,7 +46,7 @@ public class Pawn extends Piece {
 
         // Check for valid movement
         int rowDifference = tarRow - curRow;
-        int colDifference = Math.abs(tarCol - curCol);
+        int colDifference = tarCol - curCol;
 
         if (pieceColor == PieceColor.WHITE && rowDifference > 0) {
             System.out.println("Invalid move for white pawn");
@@ -68,15 +69,20 @@ public class Pawn extends Piece {
             return;
         }
 
-        // Check for pieces blocking the path
-        if (squares[tarRow][tarCol] != null && (colDifference == 1 && rowDifference == 1)) {
-            // Diagonal movement to capture a piece
-            if (squares[tarRow][tarCol].getPieceColor() == pieceColor) {
-                System.out.println("This position is already occupied by the same side");
-                return;
-            } else {
+        // **Diagonal Movement Check:**
+        if (Math.abs(rowDifference) == 1 && colDifference != 0) {
+            // Check if it's capturing a piece diagonally
+            if (squares[tarRow][tarCol] != null && squares[tarRow][tarCol].getPieceColor() != pieceColor) {
                 System.out.println(squares[tarRow][tarCol].getName() + " got captured");
                 squares[tarRow][tarCol] = null; // Remove captured piece from the board
+            } else {
+                System.out.println("Pawns cannot move diagonally unless capturing an opposing piece");
+                return;
+            }
+        } else if (Math.abs(rowDifference) == 1 && colDifference == 0) {
+            if (squares[tarRow][tarCol] != null) {
+                System.out.println("There's a piece blocking the path");
+                return;
             }
         }
 
@@ -85,6 +91,6 @@ public class Pawn extends Piece {
         squares[tarRow][tarCol] = this;
         setCurrentRow(tarRow); // Update currentRow
         setCurrentCol(tarCol); // Update currentCol
+        isFirstMove = false;
     }
 }
-
